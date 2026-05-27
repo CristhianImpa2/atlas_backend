@@ -1,5 +1,7 @@
-import { Body, Controller, Get, Param, ParseIntPipe } from '@nestjs/common';
+import { Body, Controller, Get, Param, ParseIntPipe,Post, Put, Delete } from '@nestjs/common';
 import { EmpleadosService, Empleado}  from './empleados.service'; 
+import { CreateEmpleadoDto } from 'src/dto/create-empleado.dto';
+import {UpdateEmpleadoDto} from 'src/dto/update-empleado.dto'; 
 import { retry } from 'rxjs';
 @Controller('empleados')
 export class EmpleadosController {
@@ -19,14 +21,14 @@ export class EmpleadosController {
     
     @Post() 
     Create(@Body() body:CreateEmpleadoDto): Empleado {
-        retrun this.empleadosService.create(body); 
+        return this.empleadosService.create(body); 
     }
 
     
     @Put(':id')// Cuando la ruta indique put, mas un parametro dinamico. 
     Update(// Ejeuctamos aqui. 
-        @Parm('id', ParseIntPipe) id: number, // extrameos el id, de la ruta dinamica, lo hacemos un numero y decimos que es de tipo number. 
-        @Body( ) body:Upadate, // Tomamos el body que es donde viene la actualizacion. 
+        @Param('id', ParseIntPipe) id: number, // extrameos el id, de la ruta dinamica, lo hacemos un numero y decimos que es de tipo number. 
+        @Body( ) body:UpdateEmpleadoDto, // Tomamos el body que es donde viene la actualizacion. 
     ): Empleado{ // Luego de resivir toda la ifo, y tiparla, hacemos la ejecucion el service pasando los respectivos parametros necesarios para el metodo update en el service. 
 
         return this.empleadosService.update(id, body);
@@ -44,5 +46,3 @@ export class EmpleadosController {
     
     
     
-        
-}
